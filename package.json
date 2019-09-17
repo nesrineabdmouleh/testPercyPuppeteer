@@ -1,0 +1,22 @@
+{
+  "name": "testPercy",
+  "version": "1.0.0",
+  "description": "Percy.io integration with Google Puppeteer",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "sanity-tests": "percy exec ./node_modules/mocha/bin/mocha campaigns/sanity/*"
+  },
+  "devDependencies": {
+    "@percy/puppeteer": "^1.0.8"
+  },
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chai-string": "^1.5.0",
+    "eslint-config-prestashop": "0.0.2",
+    "mocha": "^6.1.4",
+    "mochawesome": "^4.0.1",
+    "puppeteer": "^1.18.1"
+  }
+}
