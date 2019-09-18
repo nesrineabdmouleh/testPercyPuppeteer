@@ -47,21 +47,6 @@ module.exports = class CommonPage {
   }
 
   /**
-   * Open link in new Tab and get opened Page
-   * @param currentPage, current page where to click on selector
-   * @param selector, where to click
-   * @return newPage, what was opened by the browser
-   */
-  async openLinkWithTargetBlank(currentPage, selector) {
-    const pageTarget = await currentPage.target();
-    await currentPage.click(selector);
-    const newTarget = await global.browser.waitForTarget(target => target.opener() === pageTarget);
-    this.page = await newTarget.page();
-    await this.page.waitForSelector('body');
-    return this.page;
-  }
-
-  /**
    * Wait for selector and click
    * @param selector, element to check
    * @param timeout, wait timeout
@@ -110,14 +95,6 @@ module.exports = class CommonPage {
   }
 
   /**
-   * Reload actual browser page
-   * @return {Promise<void>}
-   */
-  async reloadPage() {
-    await this.page.reload({waitUntil: 'networkidle0'});
-  }
-
-  /**
    * Delete the existing text from input then set a value
    * @param selector, input
    * @param value, value to set in the input
@@ -127,65 +104,6 @@ module.exports = class CommonPage {
     await this.waitForSelectorAndClick(selector);
     await this.page.click(selector, {clickCount: 3});
     await this.page.type(selector, value);
-  }
-
-  /**
-   * To accept or dismiss a navigator dialog
-   * @param accept
-   * @return {Promise<void>}
-   */
-  async dialogListener(accept = true) {
-    this.page.once('dialog', (dialog) => {
-      if (accept) dialog.accept();
-      else dialog.dismiss();
-    });
-  }
-
-  /**
-   * Close actual tab and goto another tab if wanted
-   * @param tabId
-   * @return {Promise<void>}
-   */
-  async closePage(tabId = -1) {
-    await this.page.close();
-    if (tabId !== -1) {
-      this.page = (await global.browser.pages())[tabId];
-      await this.page.bringToFront();
-      await this.page.waitFor(10000);
-    }
-    return this.page;
-  }
-
-  /**
-   * Scroll to element
-   * @param selector
-   * @return {Promise<void>}
-   */
-  async scrollTo(selector) {
-    await this.page.$eval(selector, el => el.scrollIntoView());
-  }
-
-
-  /**
-   * Select option in select by visible text
-   * @param selector, id of select
-   * @param textValue, text in option to select
-   */
-  async selectByVisibleText(selector, textValue) {
-    let found = false;
-    const options = await this.page.$$(`${selector} option`);
-    for (let i = 0; i < options.length; i++) {
-      /*eslint-disable*/
-      const elementText = await (await options[i].getProperty('textContent')).jsonValue();
-      if (elementText === textValue) {
-        const elementValue = await (await options[i].getProperty('value')).jsonValue();
-        await this.page.select(selector, elementValue);
-        found = true;
-        break;
-      }
-      /* eslint-enable */
-    }
-    await expect(found, `${textValue} was not found as option of select`).to.be.true;
   }
 
   /**

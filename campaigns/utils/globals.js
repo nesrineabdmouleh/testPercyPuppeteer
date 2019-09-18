@@ -1,8 +1,8 @@
-global.URL_FO = process.env.URL_FO || 'http://prestashop.local/PrestaShop/';
-global.URL_BO = process.env.URL_BO || `${global.URL_FO}admin-dev/`;
+global.URL_FO = process.env.URL_FO || 'https://testmailchimp.prestashopready.com';
+global.URL_BO = process.env.URL_BO || `${global.URL_FO}backoffice/`;
 global.URL_INSTALL = process.env.URL_INSTALL || `${global.URL_FO}install-dev/`;
-global.EMAIL = process.env.LOGIN || 'demo@prestashop.com';
-global.PASSWD = process.env.PASSWD || 'prestashop_demo';
+global.EMAIL = process.env.LOGIN || 'nesrine.abdmouleh@prestashop.com';
+global.PASSWD = process.env.PASSWD || 'nesrine123';
 global.HEADLESS = process.env.HEADLESS || false;
 global.browser = null;
 global.SHOPNAME = process.env.SHOPNAME || 'Prestashop';
